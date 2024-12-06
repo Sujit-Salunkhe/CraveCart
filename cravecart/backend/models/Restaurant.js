@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { type } from "os";
 const ResturantMenusSchema = new mongoose.Schema({
   type: String,
   menu: [

@@ -1,5 +1,6 @@
 import BrandMenus from "./models/BrandMenu.js";
 import RegularResturantMenu from "./models/Restaurant.js";
+import Users from "./models/UserModel.js";
 import Restaurantmenu from "./data/OtherMenus.js";
 import RestaurantBrandMenu from "./data/BrandMenus.js";
 import connectDB from "./config/db.js";
@@ -10,16 +11,18 @@ dotenv.config({path:envPath})
 connectDB()
 const importData = async() => {
     try {
-        await BrandMenus.deleteMany()
-        await RegularResturantMenu.deleteMany()
-        await RegularResturantMenu.insertMany(Restaurantmenu)
-        await BrandMenus.insertMany(RestaurantBrandMenu)
+        await BrandMenus.deleteMany();
+        await RegularResturantMenu.deleteMany();
+        await Users.deleteMany();
+        await RegularResturantMenu.insertMany(Restaurantmenu);
+        await BrandMenus.insertMany(RestaurantBrandMenu);
     } catch (error) {
         console.log(error)
     }
 }
 
-importData ()
+importData()
+
 
 
 const deleteData = async () => {
