@@ -15,7 +15,7 @@ const addUser = asyncHandler(async (req, res) => {
   if(user){
     generateToken(res,{name,email,password})
   }
-  // res.status(201).send(data);
+  res.status(201).send("New User is Created");
 });
 
 export { addUser };
