@@ -3,19 +3,35 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import generateToken from "../utils/generatetoken.js";
 const addUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(name,email,password)
   const userExist = await UserModel.find({email:`${email}`})
-  console.log(userExist.length)
   if(userExist.length === 1){
     res.status(400).send("User Allready existed")
   }
-  const user = await UserModel.create({
-    name,email,password
-  });
-  if(user){
-    generateToken(res,{name,email,password})
+  try {
+    const user = await UserModel.create({
+      name,email,password
+    });
+    if(user){
+      generateToken(res,{name,email,password})
+      res.status(201).send("New User is Created");
+    }
+  } catch (error) {
+    res.status(400).send(error)
   }
-  res.status(201).send("New User is Created");
+
 });
 
-export { addUser };
+const logInUser = (req,res) => {
+  const {email,password} = req.body;
+  const existedUser = UserModel.findOne({email:email})
+  if(!existedUser){
+    res.status(401).send("User Not found")
+  }
+  if(existedUser.password !== password ){
+    res.status(400).send("email or password is Wrong")
+  }
+  generateToken(existedUser,process.env.JWT_SECREAT)
+
+}
+
+export { addUser,logInUser };
