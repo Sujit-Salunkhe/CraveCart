@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 //   "C:\\Users\\Sujit\\OneDrive\\Desktop\\Practice\\foodDelivery\\cravecart\\.env"
 // );
 const generateToken = (res, payload) => {
-    console.log(payload)
+  console.log(payload)
   const token = jwt.sign(payload, process.env.JWT_SECREAT,{expiresIn:'30d'});
 //   res.send("user is created")
   res.cookie("jwt", token, {

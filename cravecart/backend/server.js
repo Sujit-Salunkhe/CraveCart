@@ -33,7 +33,6 @@ app.post("/location", BasedOnLocation);
 app.get("/Restaurant/:brand", RestaurantMenu);
 app.post("/Regular/menu", RestaurantRegularMenu);
 app.use("/",userRoutes);
-app.use("/login")
 
 app.get("/", (req, res) => {
   res.send("This is server page");
