@@ -162,7 +162,7 @@ const page = () => {
               className="text-customColor focus:border-red-500"
               value={pinCode}
               placeholder="What's Your PinCode"
-              // onChange={(e) => setPinCode(e.target.value)}
+              onChange={(e) => setPinCode(e.target.value)}
             />
           </div>
         </div>
