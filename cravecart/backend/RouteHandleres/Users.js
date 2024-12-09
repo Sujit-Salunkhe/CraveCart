@@ -15,7 +15,14 @@ const addUser = asyncHandler(async (req, res) => {
     });
     if (user) {
       generateToken(res, { name, email });
-      res.status(201).send("New User is Created");
+      res
+        .status(201)
+        .send({
+          name: user.name,
+          email: user.email,
+          id: user._id,
+          admin: user.admin,
+        });
     }
   } catch (error) {
     res.status(400).send(error);
@@ -23,17 +30,32 @@ const addUser = asyncHandler(async (req, res) => {
 });
 
 const logInUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  const existedUser = await UserModel.find({ email: `${email}` });
-  const property = existedUser[0];
+  try {
+    const { email, password } = req.body;
+    const existedUser = await UserModel.find({ email: `${email}` });
+    const property = existedUser[0];
 
-  if (!existedUser) {
-    res.status(401).send("User Not found");
-  } else if (existedUser[0].password !== password) {
-    res.status(400).send("email or password is Wrong");
-  } else {
-    generateToken(res, { name: property.name, email: property.email });
-    // res.status(200).send("Token is created successfully");
+    if (!existedUser.length) {
+      res.status(401).send("User Not found");
+    } else if (existedUser[0].password !== password) {
+      res.status(400).send("email or password is Wrong");
+    } else {
+      generateToken(res, {
+        name: property.name,
+        email: property.email,
+        id: property._id,
+      });
+      res
+        .status(201)
+        .send({
+          admin: property.admin,
+          email: property.email,
+          id: property._id,
+          name: property.name,
+        });
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 
